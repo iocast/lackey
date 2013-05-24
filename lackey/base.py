@@ -115,12 +115,12 @@ class RunSession(DatabaseSession):
     
     def start(self, id, ts):
         run = self.get(id)[0]
-        run.start = datetime.utcfromtimestamp(ts)
+        run.start = datetime.fromtimestamp(ts)
         return self.edit(run)
     
     def stop(self, id, ts, log):
         run = self.get(id)[0]
-        run.end = datetime.utcfromtimestamp(ts)
+        run.end = datetime.fromtimestamp(ts)
         run.raw_log = log
         return self.edit(run)
 
