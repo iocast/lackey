@@ -1,0 +1,117 @@
+%rebase layout title=title,menu=menu
+
+<script src="{{path}}assets/visualsearch/js/visualsearch-min.js"></script>
+<link href="{{path}}assets/visualsearch/css/visualsearch-datauri-min.css" rel="stylesheet"></link>
+
+<script src="{{path}}assets/tablesorter/js/jquery.tablesorter.min.js"></script>
+<link href="{{path}}assets/tablesorter/themes/blue/style.css" rel="stylesheet"></link>
+
+
+<script src="{{path}}assets/js/projects.js"></script>
+
+
+<script type="text/javascript">
+    var search = null;
+    var base_path = '{{path}}';
+    
+    $(function() {
+      
+      $('a[name="project-new-btn"]').click(function(event) {
+                                           $('#project-new').modal('show');
+                                           });
+      
+      
+      $('form').on('submit', function(event) {
+                   event.preventDefault();
+                   var form = $(this);
+                   var target = $(form.attr('data-target'));
+                   var message = "";
+                   if($(form).attr("method").toLowerCase() == "put") {
+                   message = "changed";
+                   } else if($(form).attr("method").toLowerCase() == "post") {
+                   message = "added";
+                   }
+                   var tmpl_success =
+                   '<div class="alert alert-success">' +
+                   '<h4>Well done!</h4>' +
+                   '<p>' + message + ' entry with id <strong>{entry.id}</strong> and name <strong>{entry.name}</strong>.</p>' +
+                   '</div>';
+                   var tmpl_error =
+                   '<div class="alert alert-error">' +
+                   '<h4>Oh snap!</h4>' +
+                   '<p>{message}</p>' +
+                   '</div>';
+                   
+                   $.ajax({
+                          type: form.attr('method'),
+                          url: form.attr('action'),
+                          dataType : form.attr('data-type'),
+                          data: form.serialize(),
+                          
+                          success: function(data, status, xhr) {
+                          form.hide();
+                          if(data.status == "ok") {
+                          target.html($(tmpl_success).nano(data));
+                          }
+                          if(data.status == "error") {
+                          target.html($(tmpl_error).nano(data));
+                          }
+                          form.parent().parent().find('.btn-primary').hide();
+                          },
+                          error: function(xhr, status, error) {
+                          target.html(error);
+                          }
+                          });
+                   });
+      
+      
+      });
+    </script>
+
+
+
+<!-- Subhead
+ ================================================== -->
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h1>Projects</h1>
+        <p class="lead">Hmm ... what do we have?</p>
+    </div>
+</header>
+
+
+<!-- Content
+ ================================================== -->
+<div class="container">
+    <section>
+        
+        
+        <p>create a <a name="project-new-btn" href="#">new project</a> or search for an existing one:
+        <div id="search-box-container"></div>
+        <div id="search-result">
+            <table cellspacing="1" class="tablesorter" id="search-result-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Directory</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </p>
+        
+        
+        
+    </section>
+</div>
+
+
+
+<!-- Modal -->
+%include project_edit
+%include project_new

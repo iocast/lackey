@@ -1,0 +1,49 @@
+/* doc.css enhancement
+ -------------------------------------------------- */
+section > header:first-child {
+    border-top: 1px dashed #555555;
+}
+
+section:first-child > header:first-child {
+    border-top: 0px;
+}
+
+.table td small {
+    color: #7F7F7F;
+}
+
+.config-kvp td:first-child {
+    font-weight: normal;
+}
+.config-kvp tr:first-child td {
+    padding-top: 8px;
+    border-top: 0px;
+}
+.config-kvp td {
+    padding: 0px;
+    padding-left: 8px;
+}
+
+
+/* Ajax Loading Indicator
+ -------------------------------------------------- */
+.ajax-loader {
+    background-image: url("/assets/img/ajax-loader.gif");
+    background-repeate: no-repeat;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+
+/* OpenLayers Twitter Bootstrap Hacks
+ -------------------------------------------------- */
+#map-canvas img {
+    max-width: none;
+}
+
+#map-canvas .olControlAttribution {
+    bottom: 0px;
+}
+
+

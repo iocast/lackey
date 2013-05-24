@@ -1,0 +1,96 @@
+<script type="text/javascript">
+    $(function() {
+      $('#application-schedule').on('show', function (e) {
+                                    $('#application-schedule form').show();
+                                    $('#application-schedule-submit').show();
+                                    $($('#application-schedule form').attr('data-target')).empty();
+                                    
+                                    
+                                    $.getJSON('api/application/' + $($('#application-schedule form span[name="id"]')[0]).text(), function(data) {
+                                              $.each(data, function(i, d) {
+                                                     $.each(d, function(key, val) {
+                                                            if(key == "description" || key == "command") {
+                                                            $($('#application-schedule form textarea[name="' + key + '"]')[0]).val(val);
+                                                            } else {
+                                                            $($('#application-schedule form span[name="' + key + '"]')[0]).text(val);
+                                                            }
+                                                            })
+                                                     });
+                                              });
+                                    
+                                    });
+      
+      $('#application-schedule').on('hide', function(e) {
+                                    if(e.target.id == "application-schedule") {
+                                    $('#application-schedule form').each(function() {
+                                                                         this.reset();
+                                                                         });
+                                    search.refresh();
+                                    }
+                                    });
+      
+      $('#application-schedule-submit').on('click', function(e){
+                                           e.preventDefault();
+                                           data = { "id": $($('#application-schedule form span[name="id"]')[0]).text() }
+                                           var action = $('#application-form-schedule').attr("action");
+                                           $('#application-form-schedule').attr("action", $.nano(action, data));
+                                           $('#application-form-schedule').submit();
+                                           $('#application-form-schedule').attr("action", action);
+                                           });
+      });
+    </script>
+
+<div id="application-schedule" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="application-schedule-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="application-schedule-label">Schedule a new run</h3>
+    </div>
+    <div class="modal-body">
+        <form id="application-form-schedule" data-mode="async" data-type="json" data-target="#application-message-schedule" action="api/run/application/{id}" method="POST" class="form-horizontal">
+            <fieldset>
+                
+                
+                <div class="control-group">
+                    <label class="control-label">id</label>
+                    <div class="controls">
+                        <span name="id" class="uneditable-input" type="text" placeholder="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">name</label>
+                    <div class="controls">
+                        <span name="name" class="uneditable-input" type="text" placeholder="" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">command</label>
+                    <div class="controls">
+                        <textarea name="command" class="uneditable-textarea" rows="3" disabled></textarea>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">schedule</label>
+                    <div class="controls">
+                        
+                        <div id="schedule" class="input-append datetime">
+                            <input name="schedule" type="text"></input>
+                            <span class="add-on">
+                                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                            </span>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </fieldset>
+        </form>
+        <div id="application-message-schedule"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="application-schedule-submit" class="btn btn-primary">Save</button>
+    </div>
+</div>

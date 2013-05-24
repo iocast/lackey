@@ -1,0 +1,11 @@
+{
+    "application": {
+        "host": "http://localhost:8000/",
+        "jobs": "api/run/jobs",
+        "workdir": "./tests/working/"
+    },
+    "database": {
+        "dialect": "sqlite",
+        "uri": "%(app)s/tests/config/lackey.sqlite"
+    }
+}

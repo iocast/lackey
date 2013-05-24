@@ -1,0 +1,73 @@
+%rebase layout title=title,menu=menu
+
+<script src="{{path}}assets/visualsearch/js/visualsearch-min.js"></script>
+<link href="{{path}}assets/visualsearch/css/visualsearch-datauri-min.css" rel="stylesheet"></link>
+
+<script src="{{path}}assets/tablesorter/js/jquery.tablesorter.min.js"></script>
+<link href="{{path}}assets/tablesorter/themes/blue/style.css" rel="stylesheet"></link>
+
+
+<script src="{{path}}assets/js/runs.js"></script>
+
+
+<script type="text/javascript">
+    var search = null;
+    var base_path = '{{path}}';
+    
+    $(function() {
+      
+      search.visual.searchBox.value($('<div />').html('{{query}}').text());
+      search.refresh();
+      
+      });
+    </script>
+
+
+
+<!-- Subhead
+ ================================================== -->
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h1>Applications</h1>
+        <p class="lead">Let's do a simulation ...</p>
+    </div>
+</header>
+
+
+<!-- Content
+ ================================================== -->
+<div class="container">
+    <section>
+        
+        
+        <p>search for an existing runs:
+        <div id="search-box-container"></div>
+        <div id="search-result">
+            <table cellspacing="1" class="tablesorter" id="search-result-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Application</th>
+                        <th>Schedule</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Duration</th>
+                        <th>Directory</th>
+                        <th>Command</th>
+                        <th>Log</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </p>
+        
+        
+        
+    </section>
+</div>
+
+
+
+

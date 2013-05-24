@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Lackey 1.0 :: {{title}}</title>
+        <!-- framworks -->
+        <script src="/assets/js/jquery-1.9.1.min.js"></script>
+        <!-- jQuery UI needed by visualsearch -->
+        <link href="/assets/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet"></link>
+        <script src="/assets/jquery-ui/js/jquery-ui-1.10.2.custom.min.js"></script>
+        
+        
+        <!-- important: first underscore then backbone -->
+        <script src="/assets/js/underscore-min.js"></script>
+        <script src="/assets/js/backbone-min.js"></script>
+        
+
+        <!-- Bootstrap -->
+        <link href="/assets/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+        <link href="/assets/bootstrap/css/bootstrap-responsive.css" rel="stylesheet"></link>
+        <link href="/assets/css/docs.css" rel="stylesheet"></link>
+        <script src="/assets/bootstrap/js/bootstrap.js"></script>
+        
+        <!-- Libraries -->
+        <link href="/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet"></link>
+        <script src="/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        
+        <script src="/assets/js/jquery.nano.js"></script>
+        
+        <!-- Application -->
+        <script src="/assets/js/Class.js"></script>
+        <link href="/assets/css/lackey.css" rel="stylesheet"></link>
+        <script src="/assets/js/lackey.js"></script>
+    
+    </head>
+    <body data-spy="scroll" data-target=".navbar">
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse">
+                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="brand" href="/index.html">Lackey</a>
+                        <ul class="nav">
+                            % active_menu = { 'index' : '', 'projects' : '', 'applications' : '', 'runs' : '' }
+                            % active_menu[menu] = "active"
+                            <li class="{{active_menu['index']}}"><a href="/index.html">Home</a></li>
+                            <li class="{{active_menu['projects']}}"><a href="/projects">Projects</a></li>
+                            <li class="{{active_menu['applications']}}"><a href="/applications">Applications</a></li>
+                            <li class="{{active_menu['runs']}}"><a href="/runs">Runs</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        %include
+        
+        <!-- Footer
+         ================================================== -->
+        <footer class="footer">
+            <div class="container">
+                <p class="pull-right"><a href="#">Back to top</a></p>
+                <p>&copy; 2013 iocast. Design by <a href="http://twitter.github.com/bootstrap/" target="_new">Twitter Bootstrap</a></p>
+                <ul class="footer-links">
+                    <li><a href="http://www.plus.ethz.ch" target="_new">PLUS @ ETHZ</a></li>
+                </ul>
+            </div>
+        </footer>
+    </body>
+</html>

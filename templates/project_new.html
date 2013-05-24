@@ -1,0 +1,80 @@
+<script type="text/javascript">
+    $(function() {
+      $('#project-new').on('show', function (e) {
+                           $('#project-new form').show();
+                           $('#project-new-submit').show();
+                           $($('#project-new form').attr('data-target')).empty();
+                           
+                           });
+      $('#project-new').on('hide', function(e) {
+                           $('#project-new form').each(function() {
+                                                       this.reset();
+                                                       });
+                           search.refresh();
+                           });
+      $('#project-new-submit').on('click', function(e){
+                                  e.preventDefault();
+                                  data = { "id": $($('#project-new form span[name="id"]')[0]).text() }
+                                  var action = $('#project-form-new').attr("action");
+                                  $('#project-form-new').attr("action", $.nano(action, data));
+                                  $('#project-form-new').submit();
+                                  $('#project-form-new').attr("action", action);
+                                  });
+      
+      
+      $($('#project-new form input[name="name"]')[0]).on('change', function(e) {
+                                                         e.preventDefault();
+                                                         if($($('#project-new form input[name="directory"]')[0]).val().length <= 0) {
+                                                         var directory = $($('#project-new form input[name="name"]')[0]).val() + "/";
+                                                         directory = directory.replace(/\s+/g, '\\ ');
+                                                         $($('#project-new form input[name="directory"]')[0]).val(directory);
+                                                         }
+                                                         });
+      
+      });
+    </script>
+
+<div id="project-new" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="project-new-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="project-new-label">Project Information</h3>
+    </div>
+    <div class="modal-body">
+        <form id="project-form-new" data-mode="async" data-type="json" data-target="#project-message-new" action="api/project" method="POST" class="form-horizontal">
+            <fieldset>
+                <legend>General</legend>
+                
+                <div class="control-group">
+                    <label class="control-label">name</label>
+                    <div class="controls">
+                        <input name="name" class="input" type="text" placeholder="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">directory</label>
+                    <div class="controls">
+                        <input name="directory" class="input" type="text" placeholder="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">title</label>
+                    <div class="controls">
+                        <input name="title" type="text" placeholder="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">description</label>
+                    <div class="controls">
+                        <textarea name="description" rows="3"></textarea>
+                    </div>
+                </div>
+                
+            </fieldset>
+        </form>
+        <div id="project-message-new"></div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="project-new-submit" class="btn btn-primary">Save</button>
+    </div>
+</div>
