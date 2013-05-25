@@ -32,10 +32,12 @@
                                 
                                 });
       $('#application-edit').on('hide', function(e) {
+                                if(e.target.id == "application-edit") {
                                 $('#application-edit form').each(function() {
                                                                  this.reset();
                                                                  });
                                 search.refresh();
+                                }
                                 });
       $('#application-edit-submit').on('click', function(e){
                                        e.preventDefault();
@@ -67,30 +69,30 @@
                 <div class="control-group">
                     <label class="control-label">id</label>
                     <div class="controls">
-                        <span name="id" class="uneditable-input" type="text" placeholder="" />
+                        <span name="id" class="uneditable-input input-xlarge" type="text" placeholder="" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">name</label>
                     <div class="controls">
-                        <input name="name" class="input" type="text" placeholder="" />
+                        <input name="name" class="input-xlarge" type="text" placeholder="" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">description</label>
                     <div class="controls">
-                        <textarea name="description" rows="3"></textarea>
+                        <textarea name="description" class="input-xlarge" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">directory</label>
                     <div class="controls controls-row">
                         <div class="row-fluid">
-                            <div class="span2" style="width:80px;">
-                                <span name="project_directory" class="uneditable-input span2" style="width:80px;text-align:right;" type="text" placeholder=""/>
+                            <div class="span2">
+                                <span name="project_directory" class="uneditable-input input-mini" style="width:80px;text-align:right;" type="text" placeholder=""/>
                             </div>
-                            <div class="offset2" style="margin-left:85px;">
-                                <input name="directory" class="input span6" type="text" placeholder=""/>
+                            <div class="offset3" style="margin-left:85px;">
+                                <input name="directory" class="input-medium" type="text" placeholder="" rel="tooltip" data-placement="top" data-original-title="is the sub folder of the server share inside your project folder"/>
                             </div>
                         </div>
                     </div>
@@ -99,14 +101,14 @@
                 <div class="control-group">
                     <label class="control-label">command</label>
                     <div class="controls">
-                        <textarea name="command" rows="3"></textarea>
+                        <textarea name="command" class="input-xlarge" rows="3" rel="tooltip" data-placement="top" data-original-title="lackey background process runs this script inside the shell"></textarea>
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label class="control-label">project</label>
                     <div class="controls">
-                        <select name="project_id"><!-- addded by ajax json call --></select>
+                        <select name="project_id" class="input-xlarge"><!-- addded by ajax json call --></select>
                     </div>
                 </div>
                 

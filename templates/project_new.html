@@ -7,10 +7,12 @@
                            
                            });
       $('#project-new').on('hide', function(e) {
+                           if(e.target.id == "project-new") {
                            $('#project-new form').each(function() {
                                                        this.reset();
                                                        });
                            search.refresh();
+                           }
                            });
       $('#project-new-submit').on('click', function(e){
                                   e.preventDefault();
@@ -47,25 +49,25 @@
                 <div class="control-group">
                     <label class="control-label">name</label>
                     <div class="controls">
-                        <input name="name" class="input" type="text" placeholder="" />
+                        <input name="name" class="input-xlarge" type="text" placeholder="" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">directory</label>
                     <div class="controls">
-                        <input name="directory" class="input" type="text" placeholder="" />
+                        <input name="directory" class="input-xlarge" type="text" placeholder="" rel="tooltip" data-placement="top" data-original-title="is the main folder of the server share"/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">title</label>
                     <div class="controls">
-                        <input name="title" type="text" placeholder="" />
+                        <input name="title" class="input-xlarge" type="text" placeholder="" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">description</label>
                     <div class="controls">
-                        <textarea name="description" rows="3"></textarea>
+                        <textarea name="description" class="input-xlarge" rows="3"></textarea>
                     </div>
                 </div>
                 
