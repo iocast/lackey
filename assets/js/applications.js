@@ -53,15 +53,18 @@ $(function(){
                                                     var tblBody = $('#search-result-table tbody').empty();
                                                     var tmpl = '<tr><td>{project_name}</td><td>{name}</td><td>{description}</td><td>{project_directory}<b>{directory}</b></td><td>{command}</td>' +
                                                     '<td>' +
-                                                    '<a href="#" name="application-lst-run-btn"data-id="{id}"><span class="icon-tasks">&nbsp;</span></a>' +
-                                                    '<a href="#" name="application-lst-edit-btn" data-toggle="modal" data-id="{id}"><span class="icon-edit">&nbsp;</span></a>' +
-                                                    '<a href="#" name="application-lst-delete-btn" data-id="{id}"><span class="icon-remove">&nbsp;</span></a>' +
-                                                    '<a href="#" name="application-lst-schedule-btn" data-id="{id}"><span class="icon-play">&nbsp;</span></a>' +
+                                                    '<a href="#" name="application-lst-run-btn"data-id="{id}" rel="tooltip" data-placement="top" data-original-title="list all runs for this application"><span class="icon-tasks">&nbsp;</span></a>' +
+                                                    '<a href="#" name="application-lst-edit-btn" data-toggle="modal" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="edit application information"><span class="icon-edit">&nbsp;</span></a>' +
+                                                    '<a href="#" name="application-lst-delete-btn" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="delete application. WARNING: all runs will be deleted too."><span class="icon-remove">&nbsp;</span></a>' +
+                                                    '<a href="#" name="application-lst-schedule-btn" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="schedule a new run"><span class="icon-play">&nbsp;</span></a>' +
                                                     '</td></tr>';
                                                     
                                                     for(var i = 0; i < data.length; i++) {
                                                     tblBody.append($(tmpl).nano(data[i]));
                                                     }
+                                                    /* reinitialize twitter bootsrap tooltip */
+                                                    $('[rel=tooltip]').tooltip();
+
                                                     
                                                     $('a[name="application-lst-delete-btn"]').click(function(event) {
                                                                                                     $.ajax({

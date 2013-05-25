@@ -40,14 +40,16 @@ $(function(){
                                                     var tblBody = $('#search-result-table tbody').empty();
                                                     var tmpl = '<tr><td>{name}</td><td>{title}</td><td>{directory}</td><td>{description}</td>' +
                                                     '<td>' +
-                                                    '<a href="#" name="project-lst-show-btn" data-id="{id}"><span class="icon-leaf">&nbsp;</span></a>' +
-                                                    '<a href="#" name="project-lst-edit-btn" data-toggle="modal" data-id="{id}"><span class="icon-edit">&nbsp;</span></a>' +
-                                                    '<a href="#" name="project-lst-delete-btn" data-id="{id}"><span class="icon-remove">&nbsp;</span></a>' +
+                                                    '<a href="#" name="project-lst-show-btn" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="list all applications for this project"><span class="icon-leaf">&nbsp;</span></a>' +
+                                                    '<a href="#" name="project-lst-edit-btn" data-toggle="modal" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="edit project information"><span class="icon-edit">&nbsp;</span></a>' +
+                                                    '<a href="#" name="project-lst-delete-btn" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="delete project. WARNING: all applications and runs will be deleted too."><span class="icon-remove">&nbsp;</span></a>' +
                                                     '</td></tr>';
                                                     
                                                     for(var i = 0; i < data.length; i++) {
                                                     tblBody.append($(tmpl).nano(data[i]));
                                                     }
+                                                    /* reinitialize twitter bootsrap tooltip */
+                                                    $('[rel=tooltip]').tooltip();
                                                     
                                                     $('a[name="project-lst-delete-btn"]').click(function(event) {
                                                                                                 $.ajax({
