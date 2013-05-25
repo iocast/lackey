@@ -66,7 +66,7 @@ $(function(){
                                                     
                                                     var tblBody = $('#search-result-table tbody').empty();
                                                     var tmpl = '<tr><td>{project_name}</td><td>{application_name}</td><td>{schedule}</td><td>{start}</td><td>{end}</td><td>{duration}</td><td>{directory}</td><td>{command}</td>' +
-                                                    '<td><a href="api/run/{id}.raw" target="_blank" rel="tooltip" data-placement="top" data-original-title="opens the shell log">raw log</a></td>' +
+                                                    '<td><a href="api/run/{id}.raw" target="_blank" rel="tooltip" data-placement="top" data-original-title="opens the shell log in a seperate window">raw log</a></td>' +
                                                     '</tr>';
                                                     
                                                     for(var i = 0; i < data.length; i++) {
