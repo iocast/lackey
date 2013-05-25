@@ -25,4 +25,7 @@ $(function(){
                                     pick12HourFormat: true
                                     });
   
+  /* Twitter Bootstrap Tooltip */
+  $('[rel=tooltip]').tooltip();
+  
   });
