@@ -51,7 +51,7 @@ $(function(){
                                                     success: function(data) {
                                                     
                                                     var tblBody = $('#search-result-table tbody').empty();
-                                                    var tmpl = '<tr><td>{project_name}</td><td>{name}</td><td>{description}</td><td>{project_directory}<b>{directory}</b></td><td>{command}</td>' +
+                                                    var tmpl = '<tr><td>{project_name}</td><td>{name}</td><td><span rel="tooltip" data-placement="top" data-original-title="{description}">{description_short}</span></td><td>{project_directory}<b>{directory}</b></td><td><span rel="tooltip" data-placement="top" data-original-title="{command}">{command_short}</span></td>' +
                                                     '<td>' +
                                                     '<a href="#" name="application-lst-run-btn"data-id="{id}" rel="tooltip" data-placement="top" data-original-title="list all runs for this application"><span class="icon-tasks">&nbsp;</span></a>' +
                                                     '<a href="#" name="application-lst-edit-btn" data-toggle="modal" data-id="{id}" rel="tooltip" data-placement="top" data-original-title="edit application information"><span class="icon-edit">&nbsp;</span></a>' +
@@ -60,6 +60,12 @@ $(function(){
                                                     '</td></tr>';
                                                     
                                                     for(var i = 0; i < data.length; i++) {
+                                                    data[i]['description_short'] = data[i].description.trunc(50, true);
+                                                    data[i].description = _.escape(data[i].description)
+                                                    data[i]['command_short'] = data[i].command.trunc(50, true);
+                                                    data[i].command = _.escape(data[i].command);
+                                                    
+                                                    
                                                     tblBody.append($(tmpl).nano(data[i]));
                                                     }
                                                     /* reinitialize twitter bootsrap tooltip */
