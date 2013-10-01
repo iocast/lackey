@@ -95,6 +95,10 @@ class RunSession(DatabaseSession):
     @property
     def jobs(self):
         return ResultList(self.session.query(Run).filter(and_(Run.schedule <= datetime.now(), Run.start == None)).all())
+    
+    @property
+    def running(self):
+        return ResultList(self.session.query(Run).filter(and_(Run.start != None, Run.end == None)).all())
 
     def get(self, id):
         return ResultList([self.session.query(Run).filter(Run.id == id).one()])

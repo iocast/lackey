@@ -3,11 +3,10 @@
 > someone who is too willing to do whatever they are told to do, especially when the person, organization etc being obeyed is much more important or powerful
 > -- <cite>[Macmillan Dictionary][1]</cite>
 
-I'm helping you to run project specific tasks, in particular by running your simulation which your are too lazy to do manually.
+I'm helping you to run project specific tasks, in particular by running your simulation which you are too lazy to do manually.
 
 Nevertheless I ask you to adhere some guidlines. Here they are:
 
-TODO
 
 ## registration
 When scheduling a new run, a unique token is assigned to it. Every change on such a run, is authenticated over this unique token.
@@ -23,118 +22,110 @@ and stopping it as follow
 where ``ts`` is a **unix UTC timestamp**.
 
 
+## prerequisites
+
+* samba >= 3.6.3
+* Python >= 2.7.3
+
+### Python libraries
+
+* SQLAlchemy >= 0.8.1
+* argparse >= 1.2.1
+* bottle >= 0.11.6
+* distribute >= 0.6.24
+* wsgiref >= 0.1.2
+
 ## installation
 
-(1) installaling software
+following variables are used in the following instruction
 
-    > sudo apt-get install samba
-    > sudo apt-get install python-virtualenv
-    > sudo apg-get install uwsgi uwsgi-plugin-python
-    > sudo apt-get install nginx
+* `<path-to-www>`
+* `<path-to-virtualenv>`
 
 
-(2a) preparing environment
+**(1) installation**
 
-    > sudo mkdir -p /opt/virtualenv
-    > cd /opt/virtualenv
-    > virtualenv lackey
-    > source lackey/bin/activate
-    > pip install sqlalchemy
-    > pip install bottle
+download latest release from [GitHub/iocast/lackey](https://github.com/iocast/lackey).
 
-(2b) preparing web application folder
+create a new folder in your www root folder
 
-    > sudo mkdir -p /var/www/lackey
-    > sudo chown -R www-data:www-data /var/www/lackey/
+    sudo mkdir -p /<path-to-www>/lackey
+	sudo chwon -R www-data:www-data /<path-to-www>/lackey/
 
-(2c) preparing uwsgi vassals
-
-    > sudo mkdir /etc/uwsgi/vassals
+copy all the files into the folder ``/<path-to-www>/lackey/``
 
 
-(3) preparing uWSGI Emperor
+**(2) configuration virtualenv**
 
-> If you need to deploy a big number of apps on a single server, or a group of servers, the Emperor mode is just the ticket.
+go to your ``virtualenv`` environment folder or create a new folder in your application
 
-> It is a special uWSGI instance that will monitor specific events and will spawn/stop/reload instances (known as vassals, when managed by an Emperor) on demand.
+    cd /<path-to-virtualenv>
+	virtualenv lackey
+	source lackey/bin/activate
+	pip install sqlalchemy
+	pip install bottle
 
-> By default the Emperor will scan specific directories for supported (.ini, .xml, .yml, .json, etc.) uWSGI configuration files, but you it is extensible using imperial monitor plugins
-> -- <cite>[The uWSGI Emperor – multi-app deployment][2]</cite>
 
-create for each application a new vassal in ``/etc/uwsgi/vassals/``
+### uwsgi
 
-    > sudo vim /var/www/vassals/lackey.xml
-    <uwsgi>
-        <vhost>true</vhost>
-        <plugins>python</plugins>
-        <master>true</master>
-        <processes>1</processes>
-        <vaccum>true</vaccum>
-        <chmod-socket>666</chmod-socket>
-        <socket>/tmp/uwsgi.%n.socket</socket>
-        <uid>www-data</uid>
-        <gid>www-data</gid>
-        <virtualenv>/opt/virtualenv/lackey</virtualenv>
-        <pythonpath>%d../%n</pythonpath>
-        <chdir>%d../%n</chdir>
-        <module>scripts.%n_uwsgi</module>
-        <!-- <wsgi-file>%d../%n/scripts/lackey_wsgi.py</wsgi-file> -->
-    </uwsgi>
+**(3a) vassal**
 
-spawn the Emperor
+this is needed if you are using the `--emperor` when starting `uwsgi`
 
-    > uwsgi --emperor /var/www/vassals
+	sudo vim /<path-to-vassals>/lackey.xml
 
-uWSGI does not automatically start. Use the startup manager of your system e.g ``upstart``
+and add the following lines
 
-    > sudo vim /etc/init/uwsgi.conf
-    # uWSGI - manage uWSGI application server                                                                                                                                                                
-    #                                                                                                                                                                                                    
+	<uwsgi>
+	    <vhost>true</vhost>
+	    <plugins>python</plugins>
+	    <master>true</master>
+	    <processes>1</processes>
+	    <vaccum>true</vaccum>
+	    <chmod-socket>666</chmod-socket>
+	    <socket>/tmp/uwsgi.%n.socket</socket>
+	    <uid>www-data</uid>
+	    <gid>www-data</gid>
+	    <virtualenv>/<path-to-virtualenv>/lackey</virtualenv>
+	    <pythonpath>%d../%n</pythonpath>
+	    <chdir>%d../%n</chdir>
+	    <module>scripts.%n_uwsgi</module>
+	    <!-- <wsgi-file>%d../%n/scripts/lackey_wsgi.py</wsgi-file> -->
+	</uwsgi>
+
+### nginx
+
+**(3b) enabling site**
+
+	sudo vim /etc/nginx/sites-available/lackey.conf
+
+
+	and add the following lines:
+	<code javascript >
+	server {
+	    listen      80;
+	    charset     utf-8;
+	    server_name lackey.localhost;
+	    root        /<path-to-www>/lackey;
     
-    description     "uWSGI Emperor"
-    
-    start on (filesystem and net-device-up IFACE=lo)
-    stop on runlevel [!2345]
-    
-    respawn
-    
-    env LOGTO=/var/log/uwsgi.log
-    env BINPATH=/usr/bin/uwsgi
-    
-    exec $BINPATH --emperor /var/www/vassals/ --logto $LOGTO
+	    location /  {
+	        include     uwsgi_params;
+	        uwsgi_pass  unix:/tmp/uwsgi.lackey.socket;
+	    }
+	}
+	</code>
 
-refrefsh servcies
+enable it as follow:
 
-    > sudo initctl reload-configuration
+	cd /etc/nginx/sites-enabled
+	sudo ln -s ../sites-available/lackey.conf .
 
 
-(4) preparing web server (add the following lines)
 
-    > sudo vim /etc/nginx/sites-available/lackey_plus_dev.conf
-    server {
-            listen      80;
-            charset     utf-8;
-            server_name lackey.plus.dev.ethz.ch;
-            root        /var/www/lackey;
-            
-            location /  {
-                    include     uwsgi_params;
-                    uwsgi_pass  unix:/tmp/uwsgi.lackey.socket;
-            }
-    }
-    > cd /etc/nginx/sites-enabled
-    > sudo ln -s ../sites-available/lackey_plus_dev.conf .
+## TODO
 
-preparing exhange folder (samba)
-
-    > sudo mkdir -p /opt/exchange
-
-
-## restarting everything
-
-    > sudo service nginx {start|stop|status|try-restart|restart|force-reload|reload|probe}
-    > sudo service uwsgi {start|stop|status|try-restart|restart|force-reload|reload|probe}
-    > sudo service smbd {start|stop|status|try-restart|restart|force-reload|reload|probe}
+* TODO: [ ] run imediately
+* TODO: [ ] list of active runs / jobs
 
 
 [1]:http://www.macmillandictionary.com/dictionary/british/lackey

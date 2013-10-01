@@ -24,6 +24,13 @@ def api_runs():
     session.__class__ = RunSession
     return json.dumps(session.jobs.json)
 
+@api.route('/running')
+def api_running():
+    session = database.new_session()
+    session.__class__ = RunSession
+    return json.dumps(session.running.json)
+
+
 @api.get('/<id>.raw')
 def api_run(id):
     session = database.new_session()
@@ -177,5 +184,6 @@ def api_runs_search():
     grouped = [{'key' : x, 'values' : [y["value"] for y in values if y["category"]==x] }for x in keys]
     
     return json.dumps(session.search(grouped).json)
+
 
 
